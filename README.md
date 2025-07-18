@@ -1,3 +1,3 @@
 # crear-tu-dobo
 Diseño de macetas
-fgfghfghfgh
+¿Y si no aparece la opción “Pages”?

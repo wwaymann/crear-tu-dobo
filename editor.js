@@ -1,11 +1,14 @@
-
 const canvas = new fabric.Canvas('c');
 
 // Cargar imagen base de la maceta
 fabric.Image.fromURL('maceta.png', function(img) {
   img.selectable = false;
   img.evented = false;
-  canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+  img.scaleToWidth(canvas.width);
+  img.scaleToHeight(canvas.height);
+  canvas.setBackgroundImage(img, () => {
+    canvas.renderAll();
+  });
 });
 
 // Añadir texto personalizado
@@ -19,7 +22,8 @@ document.getElementById('addText').onclick = () => {
     top: 200,
     fill: color,
     fontFamily: font,
-    fontSize: 30
+    fontSize: 30,
+    editable: true
   });
 
   canvas.add(textbox);
@@ -37,3 +41,4 @@ document.getElementById('finish').onclick = () => {
     image: imageData
   }, '*');
 };
+

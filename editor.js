@@ -19,8 +19,7 @@ document.getElementById('addText').onclick = () => {
     top: 200,
     fill: color,
     fontFamily: font,
-    fontSize: 30,
-    editable: true
+    fontSize: 30
   });
 
   canvas.add(textbox);

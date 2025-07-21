@@ -2,10 +2,10 @@
 body {
   font-family: sans-serif;
   text-align: center;
-  margin-top: 20px;
-  background-color: #f0f0f0;
+  background-color: #f9f9f9;
+  padding: 20px;
 }
 canvas {
-  border: 1px solid #aaa;
-  background-color: #55;
+  border: 1px solid #ccc;
+  background-color: white;
 }

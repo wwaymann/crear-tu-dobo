@@ -1,11 +1,9 @@
 const canvas = new fabric.Canvas('c');
 
-// Cargar imagen base de la maceta
+// Cargar imagen base de la maceta con permiso de uso cruzado
 fabric.Image.fromURL('maceta.png', function(img) {
   img.selectable = false;
   img.evented = false;
-
-  // Escalar la imagen para que encaje bien en el canvas
   img.scaleToWidth(canvas.width);
   img.scaleToHeight(canvas.height);
 
@@ -13,7 +11,7 @@ fabric.Image.fromURL('maceta.png', function(img) {
   canvas.setBackgroundImage(img, () => {
     canvas.renderAll();
   });
-});
+}, { crossOrigin: 'anonymous' });
 
 // Añadir texto personalizado
 document.getElementById('addText').onclick = () => {
@@ -34,16 +32,20 @@ document.getElementById('addText').onclick = () => {
   canvas.setActiveObject(textbox);
 };
 
-// Finalizar diseño y enviar imagen al sitio Wix
+// Finalizar diseño y enviar imagen al sitio Wix o iframe
 document.getElementById('finish').onclick = () => {
-  const imageData = canvas.toDataURL({
-    format: 'png'
-  });
+  try {
+    const imageData = canvas.toDataURL({
+      format: 'png'
+    });
 
-  // Enviar imagen por postMessage (funciona si estás embebido en un iframe, como en Wix)
-  window.parent.postMessage({
-    type: 'finishedDesign',
-    image: imageData
-  }, '*');
+    window.parent.postMessage({
+      type: 'finishedDesign',
+      image: imageData
+    }, '*');
+  } catch (error) {
+    alert("No se pudo exportar la imagen. Verifica el origen de las imágenes.");
+    console.error(error);
+  }
 };
 

@@ -48,5 +48,4 @@ document.getElementById('finish').onclick = () => {
   }
 };
 
-};
 

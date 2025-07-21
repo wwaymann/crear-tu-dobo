@@ -47,5 +47,3 @@ document.getElementById('finish').onclick = () => {
     console.error(error);
   }
 };
-
-

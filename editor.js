@@ -4,8 +4,12 @@ const canvas = new fabric.Canvas('c');
 fabric.Image.fromURL('maceta.png', function(img) {
   img.selectable = false;
   img.evented = false;
+
+  // Escalar la imagen para que encaje bien en el canvas
   img.scaleToWidth(canvas.width);
   img.scaleToHeight(canvas.height);
+
+  // Establecer como fondo y renderizar
   canvas.setBackgroundImage(img, () => {
     canvas.renderAll();
   });
@@ -36,6 +40,7 @@ document.getElementById('finish').onclick = () => {
     format: 'png'
   });
 
+  // Enviar imagen por postMessage (funciona si estás embebido en un iframe, como en Wix)
   window.parent.postMessage({
     type: 'finishedDesign',
     image: imageData

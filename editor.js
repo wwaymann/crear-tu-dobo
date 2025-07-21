@@ -1,32 +1,40 @@
 
 const canvas = new fabric.Canvas('c');
 
-// Imagen base de la maceta
+// Cargar imagen base de la maceta
 fabric.Image.fromURL('maceta.png', function(img) {
   img.selectable = false;
   img.evented = false;
   canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
 });
 
-// Añadir texto al canvas
+// Añadir texto personalizado
 document.getElementById('addText').onclick = () => {
-  const textValue = document.getElementById('textInput').value;
-  const colorValue = document.getElementById('colorPicker').value;
-  const fontValue = document.getElementById('fontSelector').value;
+  const text = document.getElementById('textInput').value;
+  const color = document.getElementById('colorPicker').value;
+  const font = document.getElementById('fontSelector').value;
 
-  const text = new fabric.Textbox(textValue, {
+  const textbox = new fabric.Textbox(text, {
     left: 200,
     top: 200,
-    fill: colorValue,
-    fontFamily: fontValue,
+    fill: color,
+    fontFamily: font,
     fontSize: 30,
     editable: true
   });
-  canvas.add(text);
+
+  canvas.add(textbox);
+  canvas.setActiveObject(textbox);
 };
 
-// Finalizar y enviar diseño al sitio principal
+// Finalizar diseño y enviar imagen al sitio Wix
 document.getElementById('finish').onclick = () => {
-  const imageData = canvas.toDataURL({ format: 'png' });
-  window.parent.postMessage({ type: 'finishedDesign', image: imageData }, '*');
+  const imageData = canvas.toDataURL({
+    format: 'png'
+  });
+
+  window.parent.postMessage({
+    type: 'finishedDesign',
+    image: imageData
+  }, '*');
 };

@@ -9,19 +9,27 @@
 </head>
 <body>
   <h2>Personaliza tu DOBO</h2>
+
   <canvas id="c" width="800" height="600"></canvas><br>
+
   <input type="text" id="textInput" placeholder="Tu texto aquí">
   <input type="color" id="colorPicker" value="#000000">
+  
   <select id="fontSelector">
     <option value="Arial">Arial</option>
     <option value="Georgia">Georgia</option>
     <option value="Courier New">Courier New</option>
     <option value="Times New Roman">Times New Roman</option>
   </select>
+
   <button id="addText">Añadir Texto</button>
   <button id="finish">Finalizar Diseño</button>
 
+  <!-- ✅ Fabric.js primero -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.6.0/fabric.min.js"></script>
+
+  <!-- ✅ Tu script después -->
   <script src="editor.js"></script>
 </body>
 </html>
+

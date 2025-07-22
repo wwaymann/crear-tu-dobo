@@ -1,24 +1,26 @@
 const canvas = new fabric.Canvas('c');
 
-// Cargar imagen de fondo
+// Cargar imagen base de la maceta
 fabric.Image.fromURL('maceta.png', function(img) {
   img.crossOrigin = 'anonymous';
   img.selectable = false;
   img.evented = false;
   img.scaleToWidth(canvas.width);
   img.scaleToHeight(canvas.height);
-  canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+  canvas.setBackgroundImage(img, () => {
+    canvas.renderAll();
+  });
 }, { crossOrigin: 'anonymous' });
 
-// Agregar texto
+// Añadir texto personalizado
 document.getElementById('addText').onclick = () => {
   const text = document.getElementById('textInput').value;
   const color = document.getElementById('colorPicker').value;
   const font = document.getElementById('fontSelector').value;
 
   const textbox = new fabric.Textbox(text, {
-    left: 100,
-    top: 100,
+    left: 200,
+    top: 200,
     fill: color,
     fontFamily: font,
     fontSize: 30,
@@ -29,7 +31,7 @@ document.getElementById('addText').onclick = () => {
   canvas.setActiveObject(textbox);
 };
 
-// Enviar imagen al sitio Wix (padre del iframe)
+// Finalizar diseño y enviar imagen al sitio Wix
 document.getElementById('finish').onclick = () => {
   console.log("🟡 Botón Finalizar presionado");
 
@@ -49,4 +51,3 @@ document.getElementById('finish').onclick = () => {
     console.error("❌ Error al generar imagen:", error);
   }
 };
-

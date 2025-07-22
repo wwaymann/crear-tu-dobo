@@ -1,42 +1,49 @@
 const canvas = new fabric.Canvas('c');
 
-// Cargar la imagen de la maceta asegurando CORS
+// Cargar imagen base de la maceta
 fabric.Image.fromURL('maceta.png', function(img) {
-  img.set({ crossOrigin: 'anonymous', selectable: false, evented: false });
+  img.crossOrigin = 'anonymous';
+  img.selectable = false;
+  img.evented = false;
   img.scaleToWidth(canvas.width);
   img.scaleToHeight(canvas.height);
-  canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+  canvas.setBackgroundImage(img, () => {
+    canvas.renderAll();
+  });
 }, { crossOrigin: 'anonymous' });
 
-// Agregar texto personalizado
+// Añadir texto personalizado
 document.getElementById('addText').onclick = () => {
   const text = document.getElementById('textInput').value;
   const color = document.getElementById('colorPicker').value;
   const font = document.getElementById('fontSelector').value;
 
   const textbox = new fabric.Textbox(text, {
-    left: 100, top: 100,
-    fill: color, fontFamily: font,
-    fontSize: 30, editable: true
+    left: 200,
+    top: 200,
+    fill: color,
+    fontFamily: font,
+    fontSize: 30,
+    editable: true
   });
 
   canvas.add(textbox);
   canvas.setActiveObject(textbox);
 };
 
-// Exportar imagen y enviar al parent
+// Finalizar diseño y enviar imagen al sitio Wix
 document.getElementById('finish').onclick = () => {
   try {
-    const imageData = canvas.toDataURL({ format: 'png' });
-    console.log("✅ Imagen generada exitosamente", imageData.substr(0,50) + '...');
+    const imageData = canvas.toDataURL({
+      format: 'png'
+    });
 
     window.parent.postMessage({
       type: 'finishedDesign',
       image: imageData
     }, '*');
   } catch (error) {
-    console.error("❌ No se pudo exportar el canvas:", error);
-    alert("No se pudo exportar el diseño. Verifica CORS en la imagen base.");
+    alert("No se pudo exportar el diseño. Verifica CORS y errores en el canvas.");
+    console.error(error);
   }
 };
-

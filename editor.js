@@ -51,4 +51,3 @@ document.getElementById('finish').onclick = () => {
     console.error("❌ Error al generar imagen:", error);
   }
 };
-

@@ -46,3 +46,4 @@ document.getElementById('finish').onclick = () => {
     alert("No se pudo exportar el diseño. Verifica CORS y origen de la imagen.");
     console.error(error);
   }
+  };

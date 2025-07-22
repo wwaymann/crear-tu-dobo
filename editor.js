@@ -1,29 +1,48 @@
 const canvas = new fabric.Canvas('c');
 
-fabric.Image.fromURL('maceta.png', img => {
-  img.set({ crossOrigin: 'anonymous', selectable: false, evented: false });
+// Cargar imagen base con CORS habilitado
+fabric.Image.fromURL('maceta.png', function(img) {
+  img.set({
+    crossOrigin: 'anonymous',
+    selectable: false,
+    evented: false
+  });
   img.scaleToWidth(canvas.width);
   img.scaleToHeight(canvas.height);
-  canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-    crossOrigin: 'anonymous'
-  });
+  canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
 }, { crossOrigin: 'anonymous' });
 
+// Añadir texto
 document.getElementById('addText').onclick = () => {
-  const t = document.getElementById('textInput').value;
-  const c = document.getElementById('colorPicker').value;
-  const f = document.getElementById('fontSelector').value;
-  const tb = new fabric.Textbox(t, { left:150, top:150, fill:c, fontFamily:f, fontSize:30 });
-  canvas.add(tb).setActiveObject(tb);
+  const text = document.getElementById('textInput').value;
+  const color = document.getElementById('colorPicker').value;
+  const font = document.getElementById('fontSelector').value;
+
+  const textbox = new fabric.Textbox(text, {
+    left: 150,
+    top: 150,
+    fill: color,
+    fontFamily: font,
+    fontSize: 30,
+    editable: true
+  });
+
+  canvas.add(textbox);
+  canvas.setActiveObject(textbox);
 };
 
+// Finalizar diseño
 document.getElementById('finish').onclick = () => {
   try {
-    const imgData = canvas.toDataURL({ format: 'png' });
-    window.parent.postMessage({ type: 'finishedDesign', image: imgData }, '*');
+    const imageData = canvas.toDataURL({ format: 'png' });
+
+    console.log("✅ Imagen generada, enviando...");
+    window.parent.postMessage({
+      type: 'finishedDesign',
+      image: imageData
+    }, '*');
   } catch (e) {
     console.error("❌ No se pudo exportar el diseño:", e);
     alert("No se pudo exportar el diseño. Verifica que la imagen base tenga CORS habilitado.");
   }
 };
-

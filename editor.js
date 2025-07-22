@@ -33,21 +33,17 @@ document.getElementById('addText').onclick = () => {
 
 // Finalizar diseño y enviar imagen al sitio Wix
 document.getElementById('finish').onclick = () => {
-  console.log("🟡 Botón Finalizar presionado");
-
   try {
     const imageData = canvas.toDataURL({
       format: 'png'
     });
-
-    console.log("📤 Enviando imagen al parent");
 
     window.parent.postMessage({
       type: 'finishedDesign',
       image: imageData
     }, '*');
   } catch (error) {
-    alert("❌ No se pudo exportar el diseño. Revisa CORS o errores en el canvas.");
-    console.error("❌ Error al generar imagen:", error);
+    alert("No se pudo exportar el diseño. Verifica CORS y errores en el canvas.");
+    console.error(error);
   }
 };

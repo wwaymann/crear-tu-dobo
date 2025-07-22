@@ -38,12 +38,23 @@ document.getElementById('finish').onclick = () => {
       format: 'png'
     });
 
+    window.parent.postMessagedocument.getElementById('finish').onclick = () => {
+  console.log("🟡 Botón Finalizar presionado");
+
+  try {
+    const imageData = canvas.toDataURL({
+      format: 'png'
+    });
+
+    console.log("📤 Enviando imagen al parent");
+
     window.parent.postMessage({
       type: 'finishedDesign',
       image: imageData
     }, '*');
+
   } catch (error) {
-    alert("No se pudo exportar el diseño. Verifica CORS y origen de la imagen.");
-    console.error(error);
+    alert("❌ No se pudo exportar el diseño. Revisa CORS o errores en el canvas.");
+    console.error("❌ Error al generar imagen:", error);
   }
-  };
+};

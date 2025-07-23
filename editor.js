@@ -1,8 +1,10 @@
-
 const canvas = new fabric.Canvas('c');
 
-fabric.Image.fromURL('maceta.png', function(img) {
-  img.crossOrigin = 'anonymous';
+// Imagen en base64 (recortada para mostrar ejemplo)
+const base64Image = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAA..."; // ← aquí irá la imagen completa
+
+// Cargar imagen de la maceta desde base64
+fabric.Image.fromURL(base64Image, function(img) {
   img.selectable = false;
   img.evented = false;
   img.scaleToWidth(canvas.width);
@@ -10,8 +12,9 @@ fabric.Image.fromURL('maceta.png', function(img) {
   canvas.setBackgroundImage(img, () => {
     canvas.renderAll();
   });
-}, { crossOrigin: 'anonymous' });
+});
 
+// Añadir texto personalizado
 document.getElementById('addText').onclick = () => {
   const text = document.getElementById('textInput').value;
   const color = document.getElementById('colorPicker').value;
@@ -30,9 +33,12 @@ document.getElementById('addText').onclick = () => {
   canvas.setActiveObject(textbox);
 };
 
+// Finalizar diseño y enviar imagen al sitio Wix
 document.getElementById('finish').onclick = () => {
   try {
-    const imageData = canvas.toDataURL({ format: 'png' });
+    const imageData = canvas.toDataURL({
+      format: 'png'
+    });
 
     window.parent.postMessage({
       type: 'finishedDesign',
